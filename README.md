@@ -380,3 +380,88 @@ alur task pipeline di Airflow:
 Riwayat run pipeline:
 
 <img width="757" height="386" alt="image" src="https://github.com/user-attachments/assets/0f949fe6-b937-4d7e-9bf6-58962c9a0bab" />
+
+---
+
+# **KPI Operasional**
+
+---
+
+| KPI | Aktual | Target | Status |
+|---|---|---|---|
+| On-Time Delivery Rate | 91.9% | >95% | ❌ |
+| Customer Tolerance Breach Rate | 4.8% | <2% | ❌ |
+| SLA Accuracy Rate | 0.53 | 0.8-1.0 | ❌ |
+| Late Rate per Seller (avg aktif) | 7.7% | <5% | ❌ |
+| Processing Time Compliance | 53.2% | >80% | ❌ |
+
+Semua KPI ini saya tetapkan berdasarkan kondisi aktual platform dan standar yang masuk akal untuk dikejar. On-Time Delivery Rate ditarget 95% karena itu angka yang umum dijadikan benchmark di industri logistik. Customer Tolerance Breach Rate ditarget di bawah 2% karena dari data terbukti keterlambatan lebih dari 3 hari langsung bikin review score drastis. SLA Accuracy Rate ditarget 0.8-1.0 supaya estimasi yang diberikan ke customer lebih jujur dan tidak terlalu jauh dari kenyataan. Late Rate per Seller ditarget di bawah 5% karena angka itu sekitar 2.5x rata-rata platform jadi seller yang di atas itu sudah bisa dibilang bermasalah secara konsisten. Processing Time Compliance ditarget 80% karena seller yang proses lebih dari 48 jam terbukti jadi salah satu penyebab utama keterlambatan.
+
+Semua KPI belum tercapai sehingga KPI ini sebagai dasar seluruh analisis dari Final Project ini.
+
+---
+
+# **Temuan Utama EDA**
+
+---
+
+### 1. Bottleneck di Kurir
+
+t3 shipping untuk order terlambat rata-rata 600 jam vs 190 jam untuk yang tepat waktu, 3x lebih lama. Ini berarti bottleneck utama ada di tahap pengiriman kurir, bukan di approval platform atau processing seller.
+
+### 2. SLA Sandbagging Sistematis
+
+61.2% order tiba dalam kurang dari 50% estimasi yang diberikan. SLA accuracy rate hanya 0.53 karena platform memberikan estimasi yang terlalu longgar ke customer di semua wilayah.
+
+### 3. Seasonal Pattern
+
+Maret late rate 17.2% dan November 14.3%, memuncak setiap tahun. Black Friday tidak menyebabkan spike di hari H (24 November) tapi efek domino di 25-27 November karena sistem kewalahan memproses lonjakan order.
+
+### 4. 29 Seller Kronis
+
+29 seller aktif dengan late rate lebih dari 20% dan minimal 20 orders. Seller yang bergabung di 2017Q3-2018Q1 paling bermasalah dengan late rate 8.5-9.8%.
+
+### 5. Gap Regional Ekstrem
+
+Alagoas late rate 23.9% vs São Paulo 5.9%, 4x lipat. Dilihat dari cross-analysis bahwa seller normal pun late rate-nya 23.7% ke Alagoas, sehingga masalahnya bukan hanya dari seller kronis tapi juga infrastruktur logistik ke Nordeste.
+
+### 6. Customer Tolerance Threshold
+
+Telat lebih dari 3 hari review score 3.29, telat lebih dari 4 hari drastis ke 2.10. Review score tepat waktu 4.29 vs terlambat 2.56.
+
+### 7. Rekomendasi Estimasi Pengiriman
+
+Estimasi terlalu longgar di semua wilayah. Rekomendasi percentile 75 data aktual dan jika diterapkan SLA accuracy rate bisa jadi naik dari 0.53 mendekati 0.75.
+
+---
+
+# **Metabase Dashboard**
+
+---
+
+Dashboard terdiri dari 6 seksi yang bercerita dari kondisi saat ini sampai prediksi ke depan:
+
+| Seksi | Konten |
+|---|---|
+| Kondisi Operasional Saat Ini | KPI Summary + Total Order Terlambat + Revenue At Risk + Seller Kronis |
+| Di Mana Masalahnya? | Bottleneck per tahap pengiriman + Tren late rate bulanan |
+| Siapa yang Bermasalah? | Daftar seller kronis + Distribusi kategori seller + Cohort seller |
+| Wilayah Mana yang Bermasalah? | Keterlambatan per wilayah + Cross analysis seller vs wilayah + Rekomendasi estimasi |
+| Dampak ke Pelanggan | Review score + Kategori produk revenue at risk + Keterlambatan per ongkir |
+| Prediksi & Early Warning | Distribusi risiko keterlambatan dari model XGBoost |
+
+<img width="1215" height="810" alt="image" src="https://github.com/user-attachments/assets/3906698c-ae19-4e75-b01c-2deae90be150" />
+<img width="1095" height="871" alt="image" src="https://github.com/user-attachments/assets/efac1d55-14e0-44eb-8467-51f178df68e1" />
+<img width="1008" height="952" alt="image" src="https://github.com/user-attachments/assets/58995696-1ccd-447c-87e4-3cbb3b541b39" />
+<img width="1007" height="902" alt="image" src="https://github.com/user-attachments/assets/91178aec-ca31-4f78-b640-1ca07757f81b" />
+<img width="1028" height="778" alt="image" src="https://github.com/user-attachments/assets/00795f79-683a-4742-b9cb-2ff18c593021" />
+<img width="1015" height="396" alt="image" src="https://github.com/user-attachments/assets/17f1c95e-87a0-4a9f-8399-ab5065726b4a" />
+<img width="1010" height="946" alt="image" src="https://github.com/user-attachments/assets/dc93a006-737b-4752-beab-56be8c41db6a" />
+<img width="1017" height="477" alt="image" src="https://github.com/user-attachments/assets/90ec23d2-27d5-41e7-a0ad-efbab181aebe" />
+
+
+
+
+
+
+
