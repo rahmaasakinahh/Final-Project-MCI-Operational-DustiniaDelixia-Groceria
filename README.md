@@ -210,3 +210,173 @@ XGBoost dipilih karena ROC-AUC lebih tinggi dan recall lebih baik — lebih bany
 menyimpan semua 10 tabel hasil transform ke format parquet untuk kemudian di-load ke ClickHouse.
 
 <img width="1572" height="1090" alt="image" src="https://github.com/user-attachments/assets/c403e03c-164e-4ea6-9867-89de729c7f64" />
+
+---
+
+# **Task 3 : Validasi Data**
+
+---
+
+`validate.py` bertugas memastikan data hasil transform memenuhi standar kualitas sebelum masuk ke ClickHouse. Pipeline otomatis berhenti kalau ada validasi yang gagal.
+
+### Daftar Validasi
+
+| Validasi | Ekspektasi |
+|---|---|
+| Row count fact_deliveries | Lebih dari 90.000 rows |
+| Outlier sudah difilter | t1 maksimal 700 jam, t3 maksimal 3000 jam |
+| Kolom kritis tidak null | order_id, is_late, customer_state, purchase_month, seller_cohort, freight_bucket |
+| Tidak ada nilai negatif | t1, t2, t3 semua non-negatif |
+| is_late hanya 0 atau 1 | Tidak ada nilai lain |
+| Late rate masuk akal | Antara 6-12% |
+| purchase_month valid | Antara 1-12 |
+| is_chronic logika benar | Hanya seller dengan total_orders >= 20 |
+| Semua agg tables tidak kosong | agg_seller, agg_regional, agg_monthly, agg_cohort, kpi_summary |
+| fact_late_risk valid | risk_level hanya 3 kategori, late_probability antara 0-1 |
+
+Hasil validasi run terakhir: **25 PASS, 0 FAIL**
+
+### 1. Setup & Load Data
+
+memuat semua file parquet hasil transform yang akan divalidasi sebelum masuk ke ClickHouse.
+
+<img width="1542" height="1356" alt="image" src="https://github.com/user-attachments/assets/33056c95-1afc-43f4-a708-41eb7a32ceb5" />
+
+### 2. Validasi Data
+
+Bagian ini menjalankan 25+ pengecekan otomatis dari row count, outlier, kolom null, nilai negatif, logika is_chronic, sampai validasi fact_late_risk.
+
+<img width="2326" height="2572" alt="image" src="https://github.com/user-attachments/assets/a745ff8c-accf-4935-8a18-f80cbccc905a" />
+
+### 3. Summary & Pipeline Stop
+
+Bagian ini mencetak hasil validasi dan menghentikan pipeline otomatis kalau ada yang gagal.
+
+<img width="1528" height="634" alt="image" src="https://github.com/user-attachments/assets/2359fbf9-29b8-4e56-a13b-9e635eb6d6a9" />
+
+---
+
+# **Task 4 : Great Expectations Data Quality Report**
+
+---
+
+`ge_validate.py` menjalankan 9 validasi menggunakan Great Expectations dan menghasilkan HTML report yang disimpan di `data/ge_reports/`.
+
+### Cara Kerja Report
+
+Report disimpan per minggu dengan format `data_quality_report_YYYY-WNN.html`. Setiap pipeline jalan dalam minggu yang sama, run baru di-append ke file yang sama di bagian Riwayat Run Minggu Ini sehingga dalam satu file bisa ada beberapa run harian.
+
+File lama otomatis dihapus kalau sudah lebih dari 4 minggu, jadi maksimal selalu ada 4 file di folder.
+
+### Daftar Validasi GE
+
+| Check | Kolom |
+|---|---|
+| order_id tidak null | order_id |
+| is_late hanya 0 atau 1 | is_late |
+| Late rate 6-12% | is_late |
+| purchase_month antara 1-12 | purchase_month |
+| Tidak ada approval delay ekstrem | t1_approval_h |
+| Tidak ada shipping ekstrem | t3_shipping_h |
+| Row count 90K-100K | table |
+| seller_cohort tidak null | seller_cohort |
+| freight_bucket valid | freight_bucket |
+
+Hasil run terakhir: **9/9 PASS**
+
+### 1. Setup & Auto-delete Report Lama
+
+mendefinisikan path output dan menghapus otomatis report yang sudah lebih dari 4 minggu.
+
+<img width="1464" height="824" alt="image" src="https://github.com/user-attachments/assets/cff6a037-b601-4239-8df4-385fcb1c60a8" />
+
+### 2. Great Expectations Validation
+
+Bagian ini menjalankan 9 validasi menggunakan Great Expectations terhadap fact_deliveries.
+
+<img width="1588" height="1546" alt="image" src="https://github.com/user-attachments/assets/60364b0d-8b48-4b2f-92d4-cef93cf529fe" />
+
+### 3. Generate HTML Report & Pipeline Stop
+
+Bagian ini membuat HTML report mingguan dengan append run harian dan menghentikan pipeline kalau ada validasi yang gagal.
+
+<img width="4342" height="3142" alt="image" src="https://github.com/user-attachments/assets/26a2dab3-9ce2-47a3-83ba-adb0ad1ba93c" />
+
+### 4. Hasil Report
+
+<img width="1918" height="990" alt="image" src="https://github.com/user-attachments/assets/f0bb0efb-3e0f-4c13-980e-e3d13eb47f8e" />
+
+---
+
+# **Task 5 : Load ke ClickHouse**
+
+---
+
+`load.py` bertugas men-drop semua tabel lama, membuat ulang dari DDL, lalu insert semua data hasil transform ke ClickHouse.
+
+### Database Schema
+
+`dustinia_db` terdiri dari 10 tabel:
+
+| Tabel | Deskripsi | Rows |
+|---|---|---|
+| fact_deliveries | Tabel utama denormalized — semua order dengan derived columns | 96.942 |
+| dim_sellers | Dimensi seller | 3.095 |
+| dim_customers | Dimensi customer | 99.441 |
+| dim_products | Dimensi produk | 32.951 |
+| agg_seller_performance | Performa seller aktif (>=20 orders) dengan flag is_chronic dan is_new_problem | 793 |
+| agg_regional_stats | Statistik keterlambatan per state | 27 |
+| agg_monthly_trend | Tren late rate per bulan dalam format year_month | 23 |
+| agg_cohort_performance | Performa per cohort seller (per kuartal) | 9 |
+| kpi_summary | 5 KPI pre-computed dengan actual_value, target_value, dan status | 5 |
+| fact_late_risk | Hasil prediksi XGBoost per order (late_probability dan risk_level) | 96.478 |
+
+### 1. Koneksi ke ClickHouse
+
+membuat koneksi ke ClickHouse menggunakan clickhouse-connect dengan kredensial yang dikonfigurasi.
+
+<img width="1080" height="634" alt="image" src="https://github.com/user-attachments/assets/6916594f-4ede-43b9-bba6-2e494d04ba73" />
+
+### 2. Buat Database & Tabel dari DDL
+
+membuat database dustinia_db, menghapus semua tabel lama, lalu membuat ulang dari DDL.
+
+<img width="1418" height="1166" alt="image" src="https://github.com/user-attachments/assets/e3376083-49dc-49df-96c6-b489d1edb2c9" />
+
+### 3. Insert Data ke Semua Tabel
+
+membaca semua parquet hasil transform dan memasukkannya ke ClickHouse satu per satu.
+
+<img width="1386" height="1166" alt="image" src="https://github.com/user-attachments/assets/81d28fc5-a31a-4ec3-a66e-21acea011134" />
+
+### 4. Hasil di ClickHouse
+
+<img width="1918" height="1027" alt="image" src="https://github.com/user-attachments/assets/ba44ef95-137f-498d-a065-3bfe5058fe29" />
+
+---
+
+# **Airflow DAG**
+
+---
+
+DAG `dustinia_operational_pipeline` berjalan `@weekly` dengan 5 task berurutan:
+
+```
+start → extract → transform → validate → load_to_clickhouse → ge_validate → end
+```
+
+| Task | Fungsi |
+|---|---|
+| extract | Download 7 CSV dari Google Drive, simpan ke data lake dan raw |
+| transform | Proses data, hitung derived columns, filter outlier, train XGBoost |
+| validate | 25+ validasi — pipeline berhenti kalau ada yang gagal |
+| load_to_clickhouse | Drop dan recreate semua tabel, insert ke ClickHouse |
+| ge_validate | Great Expectations validation, generate HTML report mingguan |
+
+alur task pipeline di Airflow:
+
+<img width="1516" height="695" alt="image" src="https://github.com/user-attachments/assets/15783f55-7ff5-4e7b-b927-5b5e405a3594" />
+
+Riwayat run pipeline:
+
+<img width="757" height="386" alt="image" src="https://github.com/user-attachments/assets/0f949fe6-b937-4d7e-9bf6-58962c9a0bab" />
