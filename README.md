@@ -1,10 +1,10 @@
 ---
 
-# **DustiniaDelixia Groceria — Operational Analytics Pipeline**
+# **DustiniaDelixia Groceria | Operational Analytics Pipeline**
 
 ---
 
-> Seleksi Admin Lab MCI 2026 | Final Project — Operational Analyst
+> Seleksi Admin Lab MCI 2026 | Final Project | Operational Analyst
 
 | Nama | NRP | Program Studi |
 |---|---|---|
