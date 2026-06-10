@@ -499,3 +499,18 @@ Dashboard terdiri dari 6 seksi yang bercerita dari kondisi saat ini sampai predi
 18. Business Impact Quantification
 19. Late Delivery Prediction (ML) — Random Forest vs XGBoost
 20. Model Explainability (SHAP)
+
+---
+
+# **Kesimpulan**
+
+---
+
+Keterlambatan pengiriman di DustiniaDelixia Groceria disebabkan dua hal utama yaitu:
+1. kurir yang butuh waktu 3x lebih lama untuk order yang terlambat
+2. 29 seller yang secara konsisten bermasalah.
+Dampaknya sangat terasa karena ada 7.823 order terlambat dengan review score customer drastis dari 4.29 ke 2.56.
+
+Selain itu platform juga memberikan estimasi pengiriman yang terlalu jauh ke customer di semua wilayah. Ini bukan penyebab keterlambatan tapi berdampak ke daya saing platform. Customer yang mau membeli produk yang sama akan cenderung pilih platform dengan estimasi tiba paling cepat, meskipun pada kenyataannya platform dengan estimasi lebih lama bisa datang duluan. Estimasi yang tidak akurat membuat platform kalah bersaing di mata customer bahkan sebelum barang dikirim. Sehingga rekomendasi estimasi per wilayah bisa dipakai untuk meningkatkan SLA accuracy rate dari 0.53 mendekati 0.75 sekaligus membuat platform lebih kompetitif.
+
+Model XGBoost yang dibangun bisa menebak 60% order yang bisa jadi terlambat sebelum keterlambatan benar-benar terjadi. sehingga tim operasional dapat mengambil tindakan lebih awal tanpa harus menunggu customer komplain.
