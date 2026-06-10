@@ -6,9 +6,9 @@
 
 > Seleksi Admin Lab MCI 2026 | Final Project — Operational Analyst
 
-| Nama | NRP |
-|------|-----|
-| Rahma Sakinah | 5025241222 |
+| Nama | NRP | Program Studi |
+|---|---|---|
+| Rahma Sakinah | 5025241222 | Teknik Informatika |
 
 ---
 
@@ -459,9 +459,43 @@ Dashboard terdiri dari 6 seksi yang bercerita dari kondisi saat ini sampai predi
 <img width="1010" height="946" alt="image" src="https://github.com/user-attachments/assets/dc93a006-737b-4752-beab-56be8c41db6a" />
 <img width="1017" height="477" alt="image" src="https://github.com/user-attachments/assets/90ec23d2-27d5-41e7-a0ad-efbab181aebe" />
 
+---
 
+# **Akses Service**
 
+---
 
+| Service | URL | Credentials |
+|---|---|---|
+| Airflow | http://localhost:8080 | admin / admin |
+| Metabase | http://localhost:3000 | setup saat pertama buka |
+| ClickHouse | http://localhost:8123 | admin / dustinia2026 |
 
+---
 
+# **Notebook EDA**
 
+---
+
+`Part1_EDA.ipynb` berisi analisis lengkap dengan urutan:
+
+1. Import & Load Data
+2. Data Overview
+3. Preprocessing
+4. Univariate Analysis
+5. Late Delivery Analysis — bottleneck, seasonal, SLA sandbagging, anomali
+6. Seller Performance Analysis
+7. Regional Analysis
+8. Product Category Analysis
+9. Cross Analysis Operasional × Customer Experience
+10. Correlation Heatmap
+11. Outlier Analysis + Investigasi + Keputusan
+12. Cohort Analysis Seller
+13. Freight Value Analysis
+14. Peak Time & Special Event Analysis — Black Friday, Workday vs Weekend, Time of Day
+15. Statistical Significance Testing — 5 uji chi-square
+16. EDA Summary — 12 temuan + rekomendasi bisnis
+17. KPI
+18. Business Impact Quantification
+19. Late Delivery Prediction (ML) — Random Forest vs XGBoost
+20. Model Explainability (SHAP)
