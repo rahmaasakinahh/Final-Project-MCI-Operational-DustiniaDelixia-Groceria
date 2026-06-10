@@ -1,0 +1,10 @@
+credentials/
+data/lake/
+data/raw/
+data/transformed/
+data/ge_reports/
+logs/
+__pycache__/
+*.pyc
+.env
+data/*.csv
