@@ -1,0 +1,53 @@
+<html>
+<head>
+    <title>Data Quality Report - DustiniaDelixia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; padding: 20px; background: #f5f5f5; }
+        h1 { color: #333; }
+        .summary { background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .pass { color: green; font-weight: bold; }
+        .fail { color: red; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th { background: #4CAF50; color: white; padding: 10px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>Data Quality Report - DustiniaDelixia Groceria</h1>
+    <p>Generated: 2026-06-09 17:44:29</p>
+    <div class="summary">
+        <h2>Summary</h2>
+        <p>Total checks: 9</p>
+        <p class="pass">PASS: 9</p>
+        <p class="fail">FAIL: 0</p>
+    </div>
+    <table>
+        <tr><th>Check</th><th>Column</th><th>Status</th></tr><tr><td>order_id tidak null</td><td>order_id</td><td class='pass'>PASS</td></tr><tr><td>is_late hanya 0 atau 1</td><td>is_late</td><td class='pass'>PASS</td></tr><tr><td>Late rate 6-12%</td><td>is_late</td><td class='pass'>PASS</td></tr><tr><td>purchase_month antara 1-12</td><td>purchase_month</td><td class='pass'>PASS</td></tr><tr><td>Tidak ada approval delay ekstrem</td><td>t1_approval_h</td><td class='pass'>PASS</td></tr><tr><td>Tidak ada shipping ekstrem</td><td>t3_shipping_h</td><td class='pass'>PASS</td></tr><tr><td>Row count 90K-100K</td><td>table</td><td class='pass'>PASS</td></tr><tr><td>seller_cohort tidak null</td><td>seller_cohort</td><td class='pass'>PASS</td></tr><tr><td>freight_bucket valid</td><td>freight_bucket</td><td class='pass'>PASS</td></tr></table>
+    <h2 style="margin-top:30px;">Riwayat Run Minggu Ini</h2>
+    <div id="runs">
+        <div style="border: 1px solid #ddd; border-radius: 8px; margin-bottom: 20px; overflow: hidden;">
+            <div style="background: #333; color: white; padding: 10px 15px; font-family: 'Poppins', sans-serif;">
+                Run: 2026-06-10 00:23:36 — 
+                <span style="color: #4CAF50">
+                    9 PASS, 0 FAIL
+                </span>
+            </div>
+            <table style="width:100%; border-collapse:collapse; background:white;">
+                <tr><th style="background:#4CAF50;color:white;padding:10px;text-align:left;">Check</th>
+                    <th style="background:#4CAF50;color:white;padding:10px;text-align:left;">Column</th>
+                    <th style="background:#4CAF50;color:white;padding:10px;text-align:left;">Status</th></tr>
+        <tr><td style='padding:10px;border-bottom:1px solid #ddd'>order_id tidak null</td><td style='padding:10px;border-bottom:1px solid #ddd'>order_id</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr><tr><td style='padding:10px;border-bottom:1px solid #ddd'>is_late hanya 0 atau 1</td><td style='padding:10px;border-bottom:1px solid #ddd'>is_late</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr><tr><td style='padding:10px;border-bottom:1px solid #ddd'>Late rate 6-12%</td><td style='padding:10px;border-bottom:1px solid #ddd'>is_late</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr><tr><td style='padding:10px;border-bottom:1px solid #ddd'>purchase_month antara 1-12</td><td style='padding:10px;border-bottom:1px solid #ddd'>purchase_month</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr><tr><td style='padding:10px;border-bottom:1px solid #ddd'>Tidak ada approval delay ekstrem</td><td style='padding:10px;border-bottom:1px solid #ddd'>t1_approval_h</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr><tr><td style='padding:10px;border-bottom:1px solid #ddd'>Tidak ada shipping ekstrem</td><td style='padding:10px;border-bottom:1px solid #ddd'>t3_shipping_h</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr><tr><td style='padding:10px;border-bottom:1px solid #ddd'>Row count 90K-100K</td><td style='padding:10px;border-bottom:1px solid #ddd'>table</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr><tr><td style='padding:10px;border-bottom:1px solid #ddd'>seller_cohort tidak null</td><td style='padding:10px;border-bottom:1px solid #ddd'>seller_cohort</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr><tr><td style='padding:10px;border-bottom:1px solid #ddd'>freight_bucket valid</td><td style='padding:10px;border-bottom:1px solid #ddd'>freight_bucket</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr></table></div>
+        <div style="border: 1px solid #ddd; border-radius: 8px; margin-bottom: 20px; overflow: hidden;">
+            <div style="background: #333; color: white; padding: 10px 15px; font-family: 'Poppins', sans-serif;">
+                Run: 2026-06-09 17:45:26 — 
+                <span style="color: #4CAF50">
+                    9 PASS, 0 FAIL
+                </span>
+            </div>
+            <table style="width:100%; border-collapse:collapse; background:white;">
+                <tr><th style="background:#4CAF50;color:white;padding:10px;text-align:left;">Check</th>
+                    <th style="background:#4CAF50;color:white;padding:10px;text-align:left;">Column</th>
+                    <th style="background:#4CAF50;color:white;padding:10px;text-align:left;">Status</th></tr>
+        <tr><td style='padding:10px;border-bottom:1px solid #ddd'>order_id tidak null</td><td style='padding:10px;border-bottom:1px solid #ddd'>order_id</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr><tr><td style='padding:10px;border-bottom:1px solid #ddd'>is_late hanya 0 atau 1</td><td style='padding:10px;border-bottom:1px solid #ddd'>is_late</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr><tr><td style='padding:10px;border-bottom:1px solid #ddd'>Late rate 6-12%</td><td style='padding:10px;border-bottom:1px solid #ddd'>is_late</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr><tr><td style='padding:10px;border-bottom:1px solid #ddd'>purchase_month antara 1-12</td><td style='padding:10px;border-bottom:1px solid #ddd'>purchase_month</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr><tr><td style='padding:10px;border-bottom:1px solid #ddd'>Tidak ada approval delay ekstrem</td><td style='padding:10px;border-bottom:1px solid #ddd'>t1_approval_h</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr><tr><td style='padding:10px;border-bottom:1px solid #ddd'>Tidak ada shipping ekstrem</td><td style='padding:10px;border-bottom:1px solid #ddd'>t3_shipping_h</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr><tr><td style='padding:10px;border-bottom:1px solid #ddd'>Row count 90K-100K</td><td style='padding:10px;border-bottom:1px solid #ddd'>table</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr><tr><td style='padding:10px;border-bottom:1px solid #ddd'>seller_cohort tidak null</td><td style='padding:10px;border-bottom:1px solid #ddd'>seller_cohort</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr><tr><td style='padding:10px;border-bottom:1px solid #ddd'>freight_bucket valid</td><td style='padding:10px;border-bottom:1px solid #ddd'>freight_bucket</td><td style='padding:10px;border-bottom:1px solid #ddd;color:green;font-weight:bold'>PASS</td></tr></table></div></div>
+    </body></html>
